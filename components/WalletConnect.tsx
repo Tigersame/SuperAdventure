@@ -17,10 +17,15 @@ export function WalletConnect() {
   useEffect(() => {
     // Check if wallet is available
     if (typeof window !== 'undefined') {
-      setHasWallet(
-        typeof window.ethereum !== 'undefined' ||
-        connectors.some((connector) => connector.ready)
-      );
+      try {
+        setHasWallet(
+          typeof window.ethereum !== 'undefined' ||
+          connectors.some((connector) => connector.ready)
+        );
+      } catch (err) {
+        // Ignore extension conflicts
+        setHasWallet(false);
+      }
     }
   }, [connectors]);
 
