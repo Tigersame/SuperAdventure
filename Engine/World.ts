@@ -44,11 +44,15 @@ export class World {
   public static readonly LOCATION_ID_BRIDGE = 8;
   public static readonly LOCATION_ID_SPIDER_FIELD = 9;
 
-  static {
+  private static initialized = false;
+
+  private static ensureInitialized(): void {
+    if (this.initialized) return;
     this.populateItems();
     this.populateMonsters();
     this.populateQuests();
     this.populateLocations();
+    this.initialized = true;
   }
 
   private static populateItems(): void {
@@ -65,17 +69,22 @@ export class World {
   }
 
   private static populateMonsters(): void {
+    // Ensure items are populated first
+    if (this.items.length === 0) {
+      this.populateItems();
+    }
+    
     const rat = new Monster(this.MONSTER_ID_RAT, 'Rat', 5, 3, 10, 3, 3);
-    rat.lootTable.push(new LootItem(this.itemByID(this.ITEM_ID_RAT_TAIL)!, 75, false));
-    rat.lootTable.push(new LootItem(this.itemByID(this.ITEM_ID_PIECE_OF_FUR)!, 75, true));
+    rat.lootTable.push(new LootItem(this.items.find(x => x.id === this.ITEM_ID_RAT_TAIL)!, 75, false));
+    rat.lootTable.push(new LootItem(this.items.find(x => x.id === this.ITEM_ID_PIECE_OF_FUR)!, 75, true));
 
     const snake = new Monster(this.MONSTER_ID_SNAKE, 'Snake', 5, 3, 10, 3, 3);
-    snake.lootTable.push(new LootItem(this.itemByID(this.ITEM_ID_SNAKE_FANG)!, 75, false));
-    snake.lootTable.push(new LootItem(this.itemByID(this.ITEM_ID_SNAKESKIN)!, 75, true));
+    snake.lootTable.push(new LootItem(this.items.find(x => x.id === this.ITEM_ID_SNAKE_FANG)!, 75, false));
+    snake.lootTable.push(new LootItem(this.items.find(x => x.id === this.ITEM_ID_SNAKESKIN)!, 75, true));
 
     const giantSpider = new Monster(this.MONSTER_ID_GIANT_SPIDER, 'Giant spider', 20, 5, 40, 10, 10);
-    giantSpider.lootTable.push(new LootItem(this.itemByID(this.ITEM_ID_SPIDER_FANG)!, 75, true));
-    giantSpider.lootTable.push(new LootItem(this.itemByID(this.ITEM_ID_SPIDER_SILK)!, 25, false));
+    giantSpider.lootTable.push(new LootItem(this.items.find(x => x.id === this.ITEM_ID_SPIDER_FANG)!, 75, true));
+    giantSpider.lootTable.push(new LootItem(this.items.find(x => x.id === this.ITEM_ID_SPIDER_SILK)!, 25, false));
 
     this.monsters.push(rat);
     this.monsters.push(snake);
@@ -83,6 +92,16 @@ export class World {
   }
 
   private static populateQuests(): void {
+    // Ensure items are populated first
+    if (this.items.length === 0) {
+      this.populateItems();
+    }
+    
+    const ratTailItem = this.items.find(x => x.id === this.ITEM_ID_RAT_TAIL)!;
+    const healingPotionItem = this.items.find(x => x.id === this.ITEM_ID_HEALING_POTION)!;
+    const snakeFangItem = this.items.find(x => x.id === this.ITEM_ID_SNAKE_FANG)!;
+    const adventurerPassItem = this.items.find(x => x.id === this.ITEM_ID_ADVENTURER_PASS)!;
+    
     const clearAlchemistGarden = new Quest(
       this.QUEST_ID_CLEAR_ALCHEMIST_GARDEN,
       "Clear the alchemist's garden",
@@ -92,9 +111,9 @@ export class World {
     );
 
     clearAlchemistGarden.questCompletionItems.push(
-      new QuestCompletionItem(this.itemByID(this.ITEM_ID_RAT_TAIL)!, 3)
+      new QuestCompletionItem(ratTailItem, 3)
     );
-    clearAlchemistGarden.rewardItem = this.itemByID(this.ITEM_ID_HEALING_POTION);
+    clearAlchemistGarden.rewardItem = healingPotionItem;
 
     const clearFarmersField = new Quest(
       this.QUEST_ID_CLEAR_FARMERS_FIELD,
@@ -105,23 +124,33 @@ export class World {
     );
 
     clearFarmersField.questCompletionItems.push(
-      new QuestCompletionItem(this.itemByID(this.ITEM_ID_SNAKE_FANG)!, 3)
+      new QuestCompletionItem(snakeFangItem, 3)
     );
-    clearFarmersField.rewardItem = this.itemByID(this.ITEM_ID_ADVENTURER_PASS);
+    clearFarmersField.rewardItem = adventurerPassItem;
 
     this.quests.push(clearAlchemistGarden);
     this.quests.push(clearFarmersField);
   }
 
   private static populateLocations(): void {
+    // Ensure items and quests are populated first
+    if (this.items.length === 0) {
+      this.populateItems();
+    }
+    if (this.quests.length === 0) {
+      this.populateQuests();
+    }
+    
     // Create each location
     const home = new Location(this.LOCATION_ID_HOME, 'Home', 'Your house. You really need to clean up the place.');
 
     const townSquare = new Location(this.LOCATION_ID_TOWN_SQUARE, 'Town square', 'You see a fountain.');
 
     const bobTheRatCatcher = new Vendor('Bob the Rat-Catcher');
-    bobTheRatCatcher.addItemToInventory(this.itemByID(this.ITEM_ID_PIECE_OF_FUR)!, 5);
-    bobTheRatCatcher.addItemToInventory(this.itemByID(this.ITEM_ID_RAT_TAIL)!, 3);
+    const pieceOfFur = this.items.find(x => x.id === this.ITEM_ID_PIECE_OF_FUR)!;
+    const ratTail = this.items.find(x => x.id === this.ITEM_ID_RAT_TAIL)!;
+    bobTheRatCatcher.addItemToInventory(pieceOfFur, 5);
+    bobTheRatCatcher.addItemToInventory(ratTail, 3);
 
     townSquare.vendorWorkingHere = bobTheRatCatcher;
 
@@ -130,7 +159,8 @@ export class World {
       "Alchemist's hut",
       'There are many strange plants on the shelves.'
     );
-    alchemistHut.questAvailableHere = this.questByID(this.QUEST_ID_CLEAR_ALCHEMIST_GARDEN);
+    const alchemistQuest = this.quests.find(x => x.id === this.QUEST_ID_CLEAR_ALCHEMIST_GARDEN)!;
+    alchemistHut.questAvailableHere = alchemistQuest;
 
     const alchemistsGarden = new Location(
       this.LOCATION_ID_ALCHEMISTS_GARDEN,
@@ -144,7 +174,8 @@ export class World {
       'Farmhouse',
       'There is a small farmhouse, with a farmer in front.'
     );
-    farmhouse.questAvailableHere = this.questByID(this.QUEST_ID_CLEAR_FARMERS_FIELD);
+    const farmerQuest = this.quests.find(x => x.id === this.QUEST_ID_CLEAR_FARMERS_FIELD)!;
+    farmhouse.questAvailableHere = farmerQuest;
 
     const farmersField = new Location(
       this.LOCATION_ID_FARM_FIELD,
@@ -153,11 +184,12 @@ export class World {
     );
     farmersField.addMonster(this.MONSTER_ID_SNAKE, 100);
 
+    const adventurerPass = this.items.find(x => x.id === this.ITEM_ID_ADVENTURER_PASS)!;
     const guardPost = new Location(
       this.LOCATION_ID_GUARD_POST,
       'Guard post',
       'There is a large, tough-looking guard here.',
-      this.itemByID(this.ITEM_ID_ADVENTURER_PASS)!
+      adventurerPass
     );
 
     const bridge = new Location(this.LOCATION_ID_BRIDGE, 'Bridge', 'A stone bridge crosses a wide river.');
@@ -208,18 +240,22 @@ export class World {
   }
 
   public static itemByID(id: number): Item | null {
+    this.ensureInitialized();
     return this.items.find((x) => x.id === id) || null;
   }
 
   public static monsterByID(id: number): Monster | null {
+    this.ensureInitialized();
     return this.monsters.find((x) => x.id === id) || null;
   }
 
   public static questByID(id: number): Quest | null {
+    this.ensureInitialized();
     return this.quests.find((x) => x.id === id) || null;
   }
 
   public static locationByID(id: number): Location | null {
+    this.ensureInitialized();
     return this.locations.find((x) => x.id === id) || null;
   }
 }
