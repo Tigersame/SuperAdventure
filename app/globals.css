@@ -764,9 +764,7 @@ body:has(.beta-warning) {
     height: 28px;
     font-size: 1rem;
   }
-}
 
-@media (max-width: 768px) {
   .game-content {
     grid-template-columns: 1fr;
   }
