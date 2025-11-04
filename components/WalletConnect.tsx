@@ -1,12 +1,28 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { formatAddress } from '../lib/utils';
 
 export function WalletConnect() {
   const { isConnected, address } = useAccount();
-  const { connect, connectors, isPending } = useConnect();
+  const { connect, connectors, isPending, error } = useConnect({
+    onError: (error) => {
+      console.warn('Wallet connection error:', error);
+    },
+  });
   const { disconnect } = useDisconnect();
+  const [hasWallet, setHasWallet] = useState(false);
+
+  useEffect(() => {
+    // Check if wallet is available
+    if (typeof window !== 'undefined') {
+      setHasWallet(
+        typeof window.ethereum !== 'undefined' ||
+        connectors.some((connector) => connector.ready)
+      );
+    }
+  }, [connectors]);
 
   if (isConnected && address) {
     return (
@@ -22,18 +38,37 @@ export function WalletConnect() {
     );
   }
 
+  if (!hasWallet) {
+    return (
+      <div className="wallet-info">
+        <span className="wallet-unavailable">No wallet detected</span>
+      </div>
+    );
+  }
+
   return (
-    <button
-      onClick={() => {
-        if (connectors.length > 0) {
-          connect({ connector: connectors[0] });
-        }
-      }}
-      disabled={isPending || connectors.length === 0}
-      className="connect-btn"
-    >
-      {isPending ? 'Connecting...' : 'Connect Wallet'}
-    </button>
+    <div className="wallet-connect-wrapper">
+      <button
+        onClick={() => {
+          if (connectors.length > 0) {
+            try {
+              connect({ connector: connectors[0] });
+            } catch (err) {
+              console.warn('Connection attempt failed:', err);
+            }
+          }
+        }}
+        disabled={isPending || connectors.length === 0}
+        className="connect-btn"
+      >
+        {isPending ? 'Connecting...' : 'Connect Wallet'}
+      </button>
+      {error && (
+        <div className="wallet-error">
+          Connection failed. Try refreshing or check wallet extension.
+        </div>
+      )}
+    </div>
   );
 }
 

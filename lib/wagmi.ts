@@ -10,7 +10,10 @@ export const wagmiConfig = createConfig({
     [base.id]: http(),
   },
   connectors: [
-    injected(),
+    injected({
+      target: 'metaMask', // Specifically target MetaMask to avoid conflicts
+    }),
   ],
+  ssr: false, // Disable SSR for wallet connections
 });
 
