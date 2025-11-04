@@ -159,7 +159,7 @@ export default function Home() {
     <div className="container">
       <div className="game-header">
         <div className="header-top">
-          <h1>Super Adventure</h1>
+          <h1>Farcaster MiniAdv</h1>
           <WalletConnect />
         </div>
         <div className="stats">

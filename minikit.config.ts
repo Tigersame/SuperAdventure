@@ -9,7 +9,7 @@ export const minikitConfig = {
   },
   miniapp: {
     version: '1',
-    name: 'Super Adventure',
+    name: 'Farcaster MiniAdv',
     subtitle: 'Epic RPG Adventure',
     description: 'A text-based RPG adventure game. Explore locations, fight monsters, complete quests, and level up!',
     screenshotUrls: [`${ROOT_URL}/screenshot-portrait.png`],
@@ -22,7 +22,7 @@ export const minikitConfig = {
     tags: ['rpg', 'adventure', 'game', 'text-based', 'quest'],
     heroImageUrl: `${ROOT_URL}/hero.png`,
     tagline: 'Embark on an epic adventure!',
-    ogTitle: 'Super Adventure - RPG Mini App',
+    ogTitle: 'Farcaster MiniAdv - RPG Mini App',
     ogDescription: 'A text-based RPG adventure game on Farcaster',
     ogImageUrl: `${ROOT_URL}/hero.png`,
   },

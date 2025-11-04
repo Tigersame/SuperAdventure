@@ -1,7 +1,7 @@
 {
-  "name": "super-adventure-minikit",
+  "name": "farcaster-miniadv",
   "version": "1.0.0",
-  "description": "Super Adventure RPG - A Farcaster Mini App",
+  "description": "Farcaster MiniAdv - An Epic RPG Adventure Mini App",
   "private": true,
   "scripts": {
     "dev": "next dev",

@@ -1,6 +1,6 @@
-# Super Adventure - Farcaster Mini App
+# Farcaster MiniAdv - Farcaster Mini App
 
-A text-based RPG adventure game converted to run as a Farcaster Mini App using MiniKit.
+A text-based RPG adventure game built as a Farcaster Mini App using MiniKit.
 
 ## Setup
 
@@ -39,7 +39,7 @@ npm run dev
 - Trade with vendors
 - Level up and gain experience
 
-## Original Project
+## About
 
-This is a conversion of the C# Super Adventure RPG project to a web-based Farcaster Mini App.
+Farcaster MiniAdv is an epic text-based RPG adventure game built for the Farcaster ecosystem. Explore locations, fight monsters, complete quests, and earn rewards on Base!
 
