@@ -6,13 +6,16 @@ import { formatAddress } from '../lib/utils';
 
 export function WalletConnect() {
   const { isConnected, address } = useAccount();
-  const { connect, connectors, isPending, error } = useConnect({
-    onError: (error) => {
-      console.warn('Wallet connection error:', error);
-    },
-  });
+  const { connect, connectors, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
   const [hasWallet, setHasWallet] = useState(false);
+
+  // Handle connection errors
+  useEffect(() => {
+    if (error) {
+      console.warn('Wallet connection error:', error);
+    }
+  }, [error]);
 
   useEffect(() => {
     // Check if wallet is available
