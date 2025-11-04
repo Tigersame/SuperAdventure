@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import type { ConnectErrorType } from 'wagmi';
 import { formatAddress } from '../lib/utils';
 
 export function WalletConnect() {
