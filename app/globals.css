@@ -647,6 +647,125 @@ button:disabled {
   }
 }
 
+/* Beta Warning Styles */
+.beta-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, var(--warning) 0%, #D97706 100%);
+  padding: 16px 24px;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.beta-warning-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--bg-primary);
+}
+
+.beta-warning-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  animation: pulse 2s infinite;
+}
+
+.beta-warning-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.beta-warning-text strong {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.beta-warning-text span {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+.beta-warning-close {
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  color: var(--bg-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.beta-warning-close:hover {
+  background: rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
+}
+
+.beta-warning-close:active {
+  transform: scale(0.95);
+}
+
+/* Add padding to body when warning is visible */
+body:has(.beta-warning) {
+  padding-top: 0;
+}
+
+.container:has(.beta-warning) {
+  padding-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .beta-warning-content {
+    gap: 12px;
+    padding: 0 12px;
+  }
+
+  .beta-warning-text strong {
+    font-size: 0.875rem;
+  }
+
+  .beta-warning-text span {
+    font-size: 0.8rem;
+  }
+
+  .beta-warning-icon {
+    font-size: 1.25rem;
+  }
+
+  .beta-warning-close {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .game-content {
     grid-template-columns: 1fr;

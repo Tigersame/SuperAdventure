@@ -7,6 +7,7 @@ import { Weapon } from '../Engine/Weapon';
 import { HealingPotion } from '../Engine/HealingPotion';
 import { WalletConnect } from '../components/WalletConnect';
 import { RewardSystem } from '../components/RewardSystem';
+import { BetaWarning } from '../components/BetaWarning';
 import { saveGame, loadGame } from '../lib/gameStorage';
 import { PlayerQuest } from '../Engine/PlayerQuest';
 
@@ -157,6 +158,7 @@ export default function Home() {
 
   return (
     <div className="container">
+      <BetaWarning />
       <div className="game-header">
         <div className="header-top">
           <h1>Farcaster MiniAdv</h1>
