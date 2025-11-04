@@ -1,0 +1,37 @@
+{
+  "name": "super-adventure-minikit",
+  "version": "1.0.0",
+  "description": "Super Adventure RPG - A Farcaster Mini App",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@farcaster/minikit": "^1.0.0",
+    "@farcaster/miniapp-sdk": "^1.0.0",
+    "@farcaster/miniapp-wagmi-connector": "^1.0.0",
+    "@onchainkit/core": "^1.0.0",
+    "@onchainkit/wagmi": "^1.0.0",
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "wagmi": "^2.0.0",
+    "viem": "^2.0.0",
+    "@tanstack/react-query": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0"
+  }
+}
+

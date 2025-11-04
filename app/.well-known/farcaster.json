@@ -1,0 +1,16 @@
+{
+  "version": "1",
+  "name": "Super Adventure",
+  "subtitle": "Epic RPG Adventure",
+  "description": "A text-based RPG adventure game. Explore locations, fight monsters, complete quests, and level up!",
+  "iconUrl": "/icon.png",
+  "homeUrl": "http://localhost:3000",
+  "splashImageUrl": "/splash.png",
+  "splashBackgroundColor": "#1a1a2e",
+  "heroImageUrl": "/hero.png",
+  "tagline": "Embark on an epic adventure!",
+  "webhookUrl": "/api/webhook",
+  "primaryCategory": "games",
+  "tags": ["rpg", "adventure", "game", "text-based", "quest"]
+}
+
