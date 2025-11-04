@@ -5,7 +5,7 @@ import { formatAddress } from '../lib/utils';
 
 export function WalletConnect() {
   const { isConnected, address } = useAccount();
-  const { connect, connectors } = useConnect();
+  const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
 
   if (isConnected && address) {
@@ -24,10 +24,15 @@ export function WalletConnect() {
 
   return (
     <button
-      onClick={() => connect({ connector: connectors[0] })}
+      onClick={() => {
+        if (connectors.length > 0) {
+          connect({ connector: connectors[0] });
+        }
+      }}
+      disabled={isPending || connectors.length === 0}
       className="connect-btn"
     >
-      Connect Base Wallet
+      {isPending ? 'Connecting...' : 'Connect Wallet'}
     </button>
   );
 }
